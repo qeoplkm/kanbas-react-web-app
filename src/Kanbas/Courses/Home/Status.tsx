@@ -7,13 +7,13 @@ export default function CourseStatus() {
 
         <button id="wd-group" onClick={() => alert("Successful")} type="button">
           Import Existing Content
-        </button>
-        <button>Import from Commons</button>
-        <button>Choose Home Page</button>
-        <button>View Course Stream</button>
-        <button>New Announcement</button>
-        <button>New Analytics</button>
-        <button>View Course Notifications</button>
+        </button><br />
+        <button>Import from Commons</button><br />
+        <button>Choose Home Page</button><br />
+        <button>View Course Stream</button><br />
+        <button>New Announcement</button><br />
+        <button>New Analytics</button><br />
+        <button>View Course Notifications</button><br />
         </p>
       </div>
     );

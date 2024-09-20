@@ -114,11 +114,53 @@ export default function Lab1() {
               <td>2/17/21</td>
               <td>95</td>
             </tr>
+            <tr>
+              <td>Q4</td>
+              <td>JavaScript</td>
+              <td>2/18/21</td>
+              <td>95</td>
+            </tr>
+            <tr>
+              <td>Q5</td>
+              <td>CSS</td>
+              <td>2/18/21</td>
+              <td>100</td>
+            </tr>
+            <tr>
+              <td>Q6</td>
+              <td>HTML</td>
+              <td>2/20/21</td>
+              <td>96</td>
+            </tr>
+            <tr>
+              <td>Q7</td>
+              <td>JavaScript</td>
+              <td>2/21/21</td>
+              <td>95</td>
+            </tr>
+            <tr>
+              <td>Q8</td>
+              <td>CSS</td>
+              <td>2/25/21</td>
+              <td>95</td>
+            </tr>
+            <tr>
+              <td>Q9</td>
+              <td>JavaScript</td>
+              <td>2/26/21</td>
+              <td>94</td>
+            </tr>
+            <tr>
+              <td>Q10</td>
+              <td>CSS</td>
+              <td>2/28/21</td>
+              <td>91</td>
+            </tr>
           </tbody>
           <tfoot>
             <tr>
               <td colSpan={3}>Average</td>
-              <td>90</td>
+              <td>97</td>
             </tr>
           </tfoot>
         </table>
@@ -135,7 +177,7 @@ export default function Lab1() {
         <br />
         Loading a local image:
         <br />
-        <img id="wd-teslabot" src=".\pic\teslabot.jpeg" height="200px" />
+        <img id="wd-teslabot" src=".\images\teslabot.webp" height="200px" />
       </div>
       <div id="wd-forms">
         <h4>Form Elements</h4>
