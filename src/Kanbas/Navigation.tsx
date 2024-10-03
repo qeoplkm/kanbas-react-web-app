@@ -11,39 +11,38 @@ export default function KanbasNavigation() {
       <a id="wd-neu-link" target="_blank"
         href="https://www.northeastern.edu/"
         className="list-group-item bg-black border-0 text-center">
-        <img src="/images/neu.jpg" width="75px"/></a>
-      <Link to="/Kanbas/Account" id="wd-account-link"
-        className="list-group-item text-center border-0 bg-black text-white">
-        <FaRegCircleUser className="fs-1 text text-white" /><br />
-        Account </Link>
-      <Link to="/Kanbas/Dashboard" id="wd-dashboard-link"
-        className="list-group-item text-center border-0
-                   bg-white text-danger">
-        <AiOutlineDashboard className="fs-1 text-danger" /><br />
-        Dashboard </Link>
-      <Link to="/Kanbas/Dashboard" id="wd-course-link"
-        className="list-group-item text-white
-                   bg-black text-center border-0">
-        <LiaBookSolid className="fs-1 text-danger" /><br />
-        Courses </Link>
-        <Link to="/Kanbas/Calendar" id="wd-calendar-link"
-        className="list-group-item text-white
-                   bg-black text-center border-0">
-        <IoCalendarOutline className="fs-1 text-danger" /><br />
+        <img src="/images/neu.jpg" width="75px" alt="NEU logo"/>
+      </a>
+      <Link to="/Kanbas/Account" id="account"
+        className="list-group-item text-center border-0 bg-black text-white kanbas-nav-link">
+        <FaRegCircleUser className="fs-1 text-danger nav-icon" /><br />
+        Account
+      </Link>
+      <Link to="/Kanbas/Dashboard" id="default-active"
+        className="list-group-item text-center border-0 bg-black text-white kanbas-nav-link">
+        <AiOutlineDashboard className="fs-1 text-danger nav-icon" /><br />
+        Dashboard
+      </Link>
+      <Link to="/Kanbas/Courses" id="courses"
+        className="list-group-item text-center border-0 bg-black text-white kanbas-nav-link">
+        <LiaBookSolid className="fs-1 text-danger nav-icon" /><br />
+        Courses
+      </Link>
+      <Link to="/Kanbas/Calendar" id="calendar"
+        className="list-group-item text-center border-0 bg-black text-white kanbas-nav-link">
+        <IoCalendarOutline className="fs-1 text-danger nav-icon" /><br />
         Calendar
       </Link>
-      <Link to="/Kanbas/Inbox" id="wd-inbox-link"
-        className="list-group-item text-white
-                   bg-black text-center border-0">
-        <FaInbox className="fs-1 text-danger" /><br />
+      <Link to="/Kanbas/Inbox" id="inbox"
+        className="list-group-item text-center border-0 bg-black text-white kanbas-nav-link">
+        <FaInbox className="fs-1 text-danger nav-icon" /><br />
         Inbox
       </Link>
-      <Link to="/Labs" id="wd-labs-link"
-        className="list-group-item text-white
-                   bg-black text-center border-0">
-        <LiaCogSolid className="fs-1 text-danger" /><br />
+      <Link to="/Labs" id="labs"
+        className="list-group-item text-center border-0 bg-black text-white kanbas-nav-link">
+        <LiaCogSolid className="fs-1 text-danger nav-icon" /><br />
         Labs
       </Link>
     </div>
-
-);}
+  );
+}

@@ -28,3 +28,27 @@ body * {  font-family: Arial, Helvetica, sans-serif;  }
 .wd-lesson {
   border-left: 3px solid green !important;
 }
+
+.kanbas-nav-link {
+  transition: background-color 0.3s, color 0.3s;
+}
+.kanbas-nav-link:hover,
+.kanbas-nav-link:focus,
+.kanbas-nav-link:target,
+.kanbas-nav-link:active {
+  background-color: white !important;
+  color: red !important;
+}
+.kanbas-nav-link:hover .nav-icon,
+.kanbas-nav-link:focus .nav-icon,
+.kanbas-nav-link:target .nav-icon,
+.kanbas-nav-link:active .nav-icon {
+  color: red !important;
+}
+#wd-kanbas-navigation:target #default-active {
+  background-color: white !important;
+  color: red !important;
+}
+#wd-kanbas-navigation:target #default-active .nav-icon {
+  color: red !important;
+}
