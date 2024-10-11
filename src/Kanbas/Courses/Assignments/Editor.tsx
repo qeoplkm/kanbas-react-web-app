@@ -1,28 +1,39 @@
 import React from 'react';
+import { useParams, Link } from 'react-router-dom';
+import * as db from "../../Database";
 
 export default function AssignmentEditor() {
+  const { cid, aid } = useParams();
+  const assignment = db.assignments.find(a => a._id === aid);
+
+  if (!assignment) {
+    return <div>Assignment not found</div>;
+  }
+
   return (
     <div className="container mt-4">
-
       <form id="wd-assignments-editor">
         <div className="mb-3">
           <label htmlFor="wd-name" className="form-label">Assignment Name</label>
-          <input type="text" className="form-control" id="wd-name" defaultValue="A1" />
+          <input type="text" className="form-control" id="wd-name" defaultValue={assignment.title} />
         </div>
 
         <div className="mb-3">
-          <textarea className="form-control fixed-textarea"  id="wd-description" defaultValue={
-            `The assignment is available online
+          <textarea 
+            className="form-control" 
+            id="wd-description" 
+            defaultValue={`The assignment is available online
 
-              Submit a link to the landing page of your Web application running on Netlify.
+Submit a link to the landing page of your Web application running on Netlify.
 
-              The landing page should include the following:
-              • Your full name and section
-              • Links to each of the lab assignments
-              • Link to the Kanbas application
-              • Links to all relevant source code repositories
+The landing page should include the following:
+• Your full name and section
+• Links to each of the lab assignments
+• Link to the Kanbas application
+• Links to all relevant source code repositories
 
-              The Kanbas application should include a link to navigate back to the landing page.`} />
+The Kanbas application should include a link to navigate back to the landing page.`}
+          />
         </div>
 
         <div className="row mb-3">
@@ -34,6 +45,7 @@ export default function AssignmentEditor() {
           </div>
         </div>
 
+        {/* 
         <div className="row mb-3">
           <div className="col-md-2">
             <label htmlFor="wd-assignment-group" className="form-label">Assignment Group</label>
@@ -91,11 +103,14 @@ export default function AssignmentEditor() {
             </div>
           </div>
         </div>
+        
+        */}
 
         <div className="row mb-3">
           <div className="col-md-2">
             <label className="form-label">Assign</label>
           </div>
+          
           <div className="col-md-10">
             <div className="card">
               <div className="card-body">
@@ -122,11 +137,9 @@ export default function AssignmentEditor() {
           </div>
         </div>
 
-        <hr className="my-4" style={{ borderTop: '2px solid #adb5bd' }} />
-
         <div className="text-end mt-3">
-          <button className="btn btn-secondary me-2" type="button">Cancel</button>
-          <button className="btn btn-danger" type="submit">Save</button>
+          <Link to={`/Kanbas/Courses/${cid}/Assignments`} className="btn btn-secondary me-2">Cancel</Link>
+          <Link to={`/Kanbas/Courses/${cid}/Assignments`} className="btn btn-danger">Save</Link>
         </div>
       </form>
     </div>
