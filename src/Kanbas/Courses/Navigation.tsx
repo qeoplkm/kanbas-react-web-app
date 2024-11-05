@@ -8,7 +8,6 @@ export default function CoursesNavigation() {
     "Home",
     "Modules",
     "Piazza",
-    "Zoom",
     "Assignments",
     "Quizzes",
     "Grades",
@@ -16,19 +15,32 @@ export default function CoursesNavigation() {
   ];
 
   return (
-    <div id="wd-courses-navigation" className="wd list-group fs-5 rounded-0">
+    <div 
+      id="wd-courses-navigation" 
+      className="list-group fs-5"
+      style={{ 
+        marginLeft: "20px",
+        backgroundColor: "white",
+        width: "150px"
+      }}
+    >
       {links.map((link) => {
-        const linkPath = link;
-        const url = `/Kanbas/Courses/${cid}/${linkPath}`;
-        
-        const isActive = pathname.endsWith(`/${linkPath}`) || pathname.includes(`/${linkPath}/`);
+        const url = `/Kanbas/Courses/${cid}/${link}`;
+        const isActive = pathname.endsWith(`/${link}`) || 
+                        pathname.includes(`/${link}/`);
 
         return (
           <Link
-            key={linkPath}
+            key={link}
             to={url}
-            id={`wd-course-${linkPath}-link`}
-            className={`list-group-item ${isActive ? 'active' : 'text-danger'} border border-0`}
+            id={`wd-course-${link.toLowerCase()}-link`}
+            className={`list-group-item border-0 ps-3 ${
+              isActive ? "text-dark fw-bold" : "text-danger"
+            }`}
+            style={{
+              textDecoration: "none",
+              backgroundColor: "white"
+            }}
           >
             {link}
           </Link>
