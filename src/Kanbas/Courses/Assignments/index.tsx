@@ -6,18 +6,36 @@ import { MdOutlineAssignment } from "react-icons/md";
 import LessonControlButtons from "../Modules/LessonControlButtons";
 import { useParams } from "react-router";
 import { useSelector } from "react-redux";
-import { deleteAssignment } from "./reducer";
+import { deleteAssignment as deleteAssignmentAction, setAssignments } from "./reducer";
 import { useDispatch } from "react-redux";
 import { FaTrash } from "react-icons/fa";
 import DeleteDialog from "./DeleteDialog";
+import { useEffect } from "react";
+import * as assignmentsClient from "./client";
 
 export default function Assignments() {
   const { cid } = useParams();
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const { assignments } = useSelector((state: any) => state.assignmentsReducer);
   const dispatch = useDispatch();
-  const handleDelete = (assignmentId: any) => {
-    dispatch(deleteAssignment(assignmentId));
+
+  useEffect(() => {
+    const loadAssignments = async () => {
+      if (cid) {
+        const fetchedAssignments = await assignmentsClient.fetchAssignmentsForCourse(cid);
+        dispatch(setAssignments(fetchedAssignments));
+      }
+    };
+    loadAssignments();
+  }, [cid, dispatch]);
+
+  const handleDelete = async (assignmentId: string) => {
+    const success = await assignmentsClient.deleteAssignment(assignmentId);
+    if (success) {
+      dispatch(deleteAssignmentAction(assignmentId));
+    } else {
+      alert("Failed to delete the assignment.");
+    }
   };
 
   const formatDate = (dateString: string) => {
@@ -32,6 +50,7 @@ export default function Assignments() {
     };
     return date.toLocaleString("en-US", options);
   };
+
   return (
     <div className="me-3">
       <AssignmentSearch />
@@ -50,7 +69,7 @@ export default function Assignments() {
             {assignments
               .filter((assignment: any) => assignment.course === cid)
               .map((assignment: any) => (
-                <li className="wd-assignment-list-item list-group-item p-3 ps-2">
+                <li key={assignment._id} className="wd-assignment-list-item list-group-item p-3 ps-2">
                   <div className="d-flex align-items-center">
                     <BsGripVertical className="me-2 fs-3" />
                     <MdOutlineAssignment className="me-3 text-success" />
@@ -73,6 +92,7 @@ export default function Assignments() {
                           data-bs-toggle="modal"
                           data-bs-target="#wd-delete-assignment-dialog"
                           className="text-danger me-2 mb-1"
+                          onClick={() => handleDelete(assignment._id)}
                         />
                         <DeleteDialog
                           handleDelete={() => handleDelete(assignment._id)}

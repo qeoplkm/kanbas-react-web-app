@@ -1,20 +1,22 @@
 import "../../styles.css";
 import { useNavigate, useParams } from "react-router";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addAssignment, updateAssignment } from "./reducer";
+import { addAssignment, updateAssignment as updateAssignmentAction, setAssignments } from "./reducer";
+import * as assignmentsClient from "./client";
 
 export default function AssignmentEditor() {
   const { cid, aid } = useParams();
   const navigate = useNavigate();
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const { assignments } = useSelector((state: any) => state.assignmentsReducer);
+  const dispatch = useDispatch();
 
   const defaultAssignment = {
     title: "",
     description: "",
-    points: "",
+    points: 0,
     assignmentGroup: "ASSIGNMENTS",
     gradeAs: "PERCENTAGE",
     submissionType: "ONLINE",
@@ -30,27 +32,41 @@ export default function AssignmentEditor() {
     availableUntil: "",
   };
 
-  const initialAssignment = aid !== "NewAssignment"
-    ? assignments.find((assignment: any) => assignment._id === aid) || defaultAssignment
-    : defaultAssignment;
+  const [assignment, setAssignment] = useState(defaultAssignment);
+  const [loading, setLoading] = useState(false);
 
-  const [assignment, setAssignment] = useState(initialAssignment);
-  const dispatch = useDispatch();
+  useEffect(() => {
+    const loadAssignment = async () => {
+      if (aid !== "NewAssignment" && aid) {
+        setLoading(true);
+        const fetchedAssignment = await assignmentsClient.fetchAssignmentById(aid);
+        setAssignment(fetchedAssignment || defaultAssignment);
+        setLoading(false);
+      }
+    };
+    loadAssignment();
+  }, [aid]);
 
-  const handleSave = (e: React.FormEvent) => {
+  const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     const assignmentToSave = {
       ...assignment,
       course: cid,
     };
-    
-    if (aid !== "NewAssignment") {
-      dispatch(updateAssignment(assignmentToSave));
+
+    if (aid !== "NewAssignment" && aid) {
+      const updated = await assignmentsClient.updateAssignment(aid, assignmentToSave);
+      dispatch(updateAssignmentAction(updated));
     } else {
-      dispatch(addAssignment(assignmentToSave));
+      const created = await assignmentsClient.createAssignment(cid!, assignmentToSave);
+      dispatch(addAssignment(created));
     }
     navigate(`/Kanbas/Courses/${cid}/Assignments`);
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div id="wd-assignments-editor" className="me-3">
@@ -121,8 +137,14 @@ export default function AssignmentEditor() {
               id="wd-group"
               className="form-select"
               disabled={currentUser.role !== "FACULTY"}
+              value={assignment.assignmentGroup}
+              onChange={(e) =>
+                setAssignment({ ...assignment, assignmentGroup: e.target.value })
+              }
             >
               <option value="ASSIGNMENTS">ASSIGNMENTS</option>
+              <option value="QUIZZES">QUIZZES</option>
+              <option value="EXAMS">EXAMS</option>
             </select>
           </div>
         </div>
@@ -139,8 +161,13 @@ export default function AssignmentEditor() {
               id="wd-display-grade-as"
               className="form-select"
               disabled={currentUser.role !== "FACULTY"}
+              value={assignment.gradeAs}
+              onChange={(e) =>
+                setAssignment({ ...assignment, gradeAs: e.target.value })
+              }
             >
               <option value="PERCENTAGE">PERCENTAGE</option>
+              <option value="GRADE">GRADE</option>
             </select>
           </div>
         </div>
@@ -160,8 +187,13 @@ export default function AssignmentEditor() {
                     id="wd-submission-type"
                     className="form-select"
                     disabled={currentUser.role !== "FACULTY"}
+                    value={assignment.submissionType}
+                    onChange={(e) =>
+                      setAssignment({ ...assignment, submissionType: e.target.value })
+                    }
                   >
-                    <option value="Online">Online</option>
+                    <option value="ONLINE">Online</option>
+                    <option value="OFFLINE">Offline</option>
                   </select>
                 </div>
                 <div className="pt-2">
@@ -172,6 +204,17 @@ export default function AssignmentEditor() {
                           className="form-check-input"
                           type="checkbox"
                           id={option.id}
+                          checked={assignment.onlineEntryOptions.some(
+                            (opt: any) => opt.id === option.id
+                          )}
+                          onChange={(e) => {
+                            const updatedOptions = e.target.checked
+                              ? [...assignment.onlineEntryOptions, option]
+                              : assignment.onlineEntryOptions.filter(
+                                  (opt: any) => opt.id !== option.id
+                                );
+                            setAssignment({ ...assignment, onlineEntryOptions: updatedOptions });
+                          }}
                           disabled={currentUser.role !== "FACULTY"}
                         />
                         <label className="form-check-label" htmlFor={option.id}>
@@ -198,7 +241,7 @@ export default function AssignmentEditor() {
                 </label>
                 <div className="d-flex align-items-center border border-gray rounded">
                   <span className="border border-gray bg-light rounded p-2 m-2">
-                    Everyone X
+                    Everyone
                   </span>
                 </div>
                 <label htmlFor="wd-due-date" className="form-label">
