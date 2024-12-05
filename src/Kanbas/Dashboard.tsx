@@ -12,6 +12,9 @@ export default function Dashboard({
   addNewCourse,
   deleteCourse,
   updateCourse,
+  enrolling, 
+  setEnrolling,
+  updateEnrollment
 }: {
   courses: any[];
   course: any;
@@ -19,6 +22,9 @@ export default function Dashboard({
   addNewCourse: () => void;
   deleteCourse: (course: any) => void;
   updateCourse: () => void;
+  enrolling: boolean;
+  setEnrolling: (enrolling: boolean) => void;
+  updateEnrollment: (courseId: string, enrolled: boolean) => void;
 }) {
   
   const { currentUser } = useSelector((state: any) => state.accountReducer);
@@ -52,12 +58,14 @@ export default function Dashboard({
         );
   }, [showAllCourses, courses, enrollments, currentUser._id]);
 
-  console.log("Show All Courses:", showAllCourses);
-  console.log("Displayed Courses:", displayedCourses);
 
   return (
     <div className="p-4" id="wd-dashboard">
-      <h1 id="wd-dashboard-title">Dashboard</h1> <hr />
+      <h1 id="wd-dashboard-title">Dashboard
+      <button onClick={() => setEnrolling(!enrolling)} className="float-end btn btn-primary" >
+          {enrolling ? "My Courses" : "All Courses"}
+        </button>
+</h1> <hr />
 
       <ProtectedRouteFaculty>
         <h5>
@@ -100,14 +108,6 @@ export default function Dashboard({
         <hr />
       </ProtectedRouteFaculty>
 
-      <ProtectedRouteStudent>
-        <button
-          className="btn btn-primary float-end"
-          onClick={handleToggleEnrollments}
-        >
-          {showAllCourses ? "Show Enrolled" : "Show All Courses"}
-        </button>
-      </ProtectedRouteStudent> 
 
       <h2 id="wd-dashboard-published">
         Published Courses ({displayedCourses.length})
@@ -131,6 +131,15 @@ export default function Dashboard({
                   />
                   <div className="card-body">
                     <h5 className="wd-dashboard-course-title card-title">
+                    {enrolling && (
+              <button onClick={(event) => {
+                        event.preventDefault();
+                        updateEnrollment(course._id, !course.enrolled);
+                      }}
+                      className={`btn ${ course.enrolled ? "btn-danger" : "btn-success" } float-end`} >
+                {course.enrolled ? "Unenroll" : "Enroll"}
+              </button>
+                    )}
                       {course.name}{" "}
                     </h5>
                     <p
@@ -141,34 +150,6 @@ export default function Dashboard({
                     </p>
                     <button className="btn btn-primary"> Go </button>
 
-                    <ProtectedRouteStudent>
-                      {enrollments.some(
-                        (enrollment: any) =>
-                          enrollment.course === course._id &&
-                          enrollment.user === currentUser._id 
-                      ) ? (
-                        <button
-                          className="btn btn-danger"
-                          onClick={(event) => {
-                            event.preventDefault();
-                            handleUnenroll(course._id);
-                          }}
-                          aria-label="Unenroll from course"
-                        >
-                          Unenroll
-                        </button>
-                      ) : (
-                        <button
-                          className="btn btn-success"
-                          onClick={(event) => {
-                            event.preventDefault();
-                            handleEnroll(course._id)}}
-                          aria-label="Enroll in course"
-                        >
-                          Enroll
-                        </button>
-                      )}
-                    </ProtectedRouteStudent>
 
                     <ProtectedRouteFaculty>
                       <button

@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { enrollments as initialEnrollments } from "./Database";
 
-// Enrollment interface定义
 interface Enrollment {
   _id: string;
   user: string;
@@ -15,13 +14,12 @@ const getInitialEnrollments = (): Enrollment[] => {
       console.log("Loading enrollments from localStorage");
       return JSON.parse(savedEnrollments);
     } else {
-      // 如果localStorage中没有数据，返回初始的数据库enrollments或空数组
       console.log("Loading enrollments from Database:", initialEnrollments);
       return initialEnrollments.length ? initialEnrollments : [];
     }
   } catch (error) {
     console.error("Error parsing enrollments from localStorage", error);
-    return initialEnrollments.length ? initialEnrollments : []; // 避免空白页面，返回一个有效数组
+    return initialEnrollments.length ? initialEnrollments : []; 
   }
 };
 
@@ -47,7 +45,7 @@ const enrollmentSlice = createSlice({
 
       if (!isEnrolled) {
         state.enrollments.push({
-          _id: String(Date.now()), // 生成唯一_id
+          _id: String(Date.now()), 
           user,
           course,
         });
