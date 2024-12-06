@@ -59,7 +59,6 @@ export default function AssignmentEditor({
         }
     }, [assignmentEdit, Edited]);
 
-    // handles saving the assignment depending on if it is a new assignment or an edited one
     const handleSave = () => {
         const assignment = {
             _id: aid || Date.now().toString(),
@@ -74,8 +73,6 @@ export default function AssignmentEditor({
         Edited ? saveAssignment(assignment) : createAssignmentForCourse(assignment);
         navigate(`/Kanbas/Courses/${cid}/Assignments`);
     };
-
-    // handles formatting date so it can be displayed in assignment editor
     const handleDate = (date: string) => {
         return date.split('T')[0];
     };
@@ -96,7 +93,6 @@ export default function AssignmentEditor({
                     onChange={(e) => { setDescription(e.target.value) }}>
                 </textarea>
             </div>
-            {/* Begin Grid */}
             <div className="container">
                 <div className="row form-group mb-3 text-dark">
                     <label htmlFor="wd-points" className="col-4 form-label text-end">

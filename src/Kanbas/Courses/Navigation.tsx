@@ -26,8 +26,7 @@ export default function CoursesNavigation() {
     >
       {links.map((link) => {
         const url = `/Kanbas/Courses/${cid}/${link}`;
-        const isActive = pathname.endsWith(`/${link}`) || 
-                        pathname.includes(`/${link}/`);
+        const isActive = pathname.endsWith(`/${link}`) || pathname.includes(`/${link}/`);
 
         return (
           <Link

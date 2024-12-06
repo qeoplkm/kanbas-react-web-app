@@ -2,7 +2,6 @@ export default function AssignmentDeleteConfirmation(
     { assignmentName, assignmentId, modalId, deleteAssignment }:
         { assignmentName: string; assignmentId: string; modalId:string; deleteAssignment: (id: string) => void; }
 ) {
-    console.log(modalId);
     return (
         <div id={modalId} className="modal fade" data-bs-backdrop="static" data-bs-keyboard="false">
             <div className="modal-dialog">

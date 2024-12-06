@@ -1,6 +1,6 @@
 import { IoEllipsisVertical } from "react-icons/io5";
 import { BsPlusLg } from "react-icons/bs";
-import { FaTrash, FaPencilAlt } from "react-icons/fa"; // Import additional icons
+import { FaTrash, FaPencilAlt } from "react-icons/fa"; 
 import GreenCheckmark from "./GreenCheckmark";
 
 export default function ModuleControlButtons({
@@ -12,7 +12,7 @@ export default function ModuleControlButtons({
   moduleId: string;
   deleteModule: (moduleId: string) => void;
   editModule: (moduleId: string) => void;
-  isFaculty: boolean; // Receive isFaculty prop
+  isFaculty: boolean; 
 }) {
   return (
     <div className="float-end">

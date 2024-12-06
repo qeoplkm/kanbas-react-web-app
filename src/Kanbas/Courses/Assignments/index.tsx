@@ -12,7 +12,7 @@ import { useEffect } from "react";
 
 export default function Assignments() {
   const { cid } = useParams();
-  const { assignments } = useSelector((state: any) => state.assignmentsReducer);
+  const { assignments } = useSelector((state: any) => state.assignmentReducer);
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const dispatch = useDispatch();
   const removeAssignment = async (assignmentId: string) => {
@@ -26,6 +26,8 @@ export default function Assignments() {
   useEffect(() => {
     fetchAssignments();
   }, []);
+
+
   return (
     <div id="wd-assignments">
       <AssignmentControls /><br /><br /><br /><br />
@@ -37,7 +39,7 @@ export default function Assignments() {
             <AssignmentControlButtons />
           </div>
           <ul id="wd-lessons" className="list-group rounded-0">
-            {assignments.map((a: any) => (
+            {assignments.map((assignment: any) => (
                 <li className="wd-lesson list-group-item p-3 ps-1 d-flex justify-content-between" style={{ width: "100%" }}>
                   <div className="align-content-center">
                     <BsGripVertical className="me-2 fs-3" />
@@ -46,24 +48,24 @@ export default function Assignments() {
                   <div className="flex-grow-1 px-2">
                     {currentUser.role === "FACULTY" ? (
                       <a className="wd-assignment-link link-dark text-decoration-none"
-                        href={`#/Kanbas/Courses/${cid}/Assignments/${a._id}`}>
-                        <b>{a.title}</b>
+                        href={`#/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}>
+                        <b>{assignment.title}</b>
                       </a>
                     ) : (
-                      <b>{a.title}</b>
+                      <b>{assignment.title}</b>
                     )}
                     <p>
                       <span className="text-danger">Multiple Modules </span>
                       <b> Not available until </b>
-                      {new Date(a.available.replace(/-/g, '\/').replace(/T.+/, '')).toDateString().split(' ').slice(1).join(' ')}
-                      &nbsp;| <b>Due</b> {new Date(a.due.replace(/-/g, '\/').replace(/T.+/, '')).toDateString().split(' ').slice(1).join(' ')}
-                      &nbsp;| {a.points || 0} pts
+                      {new Date(assignment.available.replace(/-/g, '\/').replace(/T.+/, '')).toDateString().split(' ').slice(1).join(' ')}
+                      &nbsp;| <b>Due</b> {new Date(assignment.due.replace(/-/g, '\/').replace(/T.+/, '')).toDateString().split(' ').slice(1).join(' ')}
+                      &nbsp;| {assignment.points || 0} pts
                     </p>
                   </div>
                   <div className="align-content-center justify-content-end">
                     <AssignmentLessonControlButtons
-                      assignmentName={a.title}
-                      assignmentId={a._id}
+                      assignmentName={assignment.title}
+                      assignmentId={assignment._id}
                       deleteAssignment={(assignmentId) => {
                         removeAssignment(assignmentId)
                       }}

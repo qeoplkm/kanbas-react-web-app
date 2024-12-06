@@ -1,9 +1,8 @@
 import { IoEllipsisVertical } from "react-icons/io5";
 import GreenCheckmark from "../Modules/GreenCheckmark";
 import { FaTrash } from "react-icons/fa";
+import ProtectedRole from "../../Account/ProtectedRole";
 import AssignmentDeleteConfirmation from "./AssignmentDeleteConfirmation";
-import ProtectedRoute from "../../Account/ProtectedRoute";
-import { useDispatch } from "react-redux";
 
 export default function AssignmentLessonControlButtons(
     { assignmentName, assignmentId, deleteAssignment }:
@@ -18,10 +17,10 @@ export default function AssignmentLessonControlButtons(
     return (
         <div>
             <div className="float-end">
-                <ProtectedRoute>
+                <ProtectedRole>
                     <FaTrash className="text-danger me-2 mb-1"
                         data-bs-toggle="modal" data-bs-target={`#${modalId}`} />
-                </ProtectedRoute>
+                </ProtectedRole>
                 <GreenCheckmark />
                 <IoEllipsisVertical className="fs-4" />
                 <AssignmentDeleteConfirmation
