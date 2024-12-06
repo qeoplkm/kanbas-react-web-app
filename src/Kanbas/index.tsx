@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 
 export default function Kanbas() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
+  console.log('Current User:', currentUser);
   const [courses, setCourses] = useState<any[]>([]);
   const [enrolling, setEnrolling] = useState<boolean>(false);
   const findCoursesForUser = async () => {
